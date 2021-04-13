@@ -80,23 +80,21 @@ if __name__ == "__main__":
 
     train_iterator, valid_iterator, test_iterator = BucketIterator.splits((train_data, valid_data, test_data), batch_size=config.BATCH_SIZE, device=config.device)
 
-    # for epoch in range(N_EPOCHS):    
-    #     start_time = time.time()
-    #     train_loss = train(seq2seq, train_iterator, optimizer, criterion)
-    #     valid_loss = evaluate(seq2seq, valid_iterator, criterion)
-    #     end_time = time.time()
+    for epoch in range(N_EPOCHS):    
+        start_time = time.time()
+        train_loss = train(seq2seq, train_iterator, optimizer, criterion)
+        valid_loss = evaluate(seq2seq, valid_iterator, criterion)
+        end_time = time.time()
 
-    #     epoch_mins, epoch_secs = epoch_time(start_time, end_time)
+        epoch_mins, epoch_secs = epoch_time(start_time, end_time)
 
-    #     if valid_loss < best_valid_loss:
-    #         best_valid_loss = valid_loss
-    #         torch.save(seq2seq.state_dict(), 'tut1-model.pt')
+        if valid_loss < best_valid_loss:
+            best_valid_loss = valid_loss
+            torch.save(seq2seq.state_dict(), 'tut1-model.pt')
 
-    #     # it's easier to see a change in perplexity between epoch as it's an exponential
-    #     # of the loss, hence the scale of the measure is much bigger
-    #     print(f'Epoch: {epoch+1:02} | Time: {epoch_mins}m {epoch_secs}s')
-    #     print(f'\tTrain Loss: {train_loss:.3f} | Train PPL: {math.exp(train_loss):7.3f}')
-    #     print(f'\t Val. Loss: {valid_loss:.3f} |  Val. PPL: {math.exp(valid_loss):7.3f}')
+        print(f'Epoch: {epoch+1:02} | Time: {epoch_mins}m {epoch_secs}s')
+        print(f'\tTrain Loss: {train_loss:.3f} | Train PPL: {math.exp(train_loss):7.3f}')
+        print(f'\t Val. Loss: {valid_loss:.3f} |  Val. PPL: {math.exp(valid_loss):7.3f}')
     
     seq2seq.load_state_dict(torch.load('tut1-model.pt'))
 
